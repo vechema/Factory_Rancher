@@ -3,7 +3,7 @@ package com.jegner.factory.rancher.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.jegner.factory.rancher.MyGdxGame;
+import com.jegner.factory.rancher.FactoryRancherGame;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -46,6 +46,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new MyGdxGame();
+                return new FactoryRancherGame();
         }
 }
