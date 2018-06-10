@@ -12,7 +12,7 @@ public abstract class AbstractScreen implements Screen {
 
     public AbstractScreen(ScreenManager screenManager) {
         this.screenManager = screenManager;
-        this.assetManager = screenManager.assetManager();
+        this.assetManager = screenManager.getAssetManager();
         Gdx.app.log("New Screen", shortClassName());
     }
 
