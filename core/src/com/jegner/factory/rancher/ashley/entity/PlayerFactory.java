@@ -51,7 +51,9 @@ public class PlayerFactory {
         StateComponent stateCom = engine.createComponent(StateComponent.class);*/
 
         // Set up body component
-        Body body = bodyFactory.makeBoxPolyBody(0,0,10,10, BodyFactory.FixtureMaterial.STONE, BodyType.DynamicBody);
+        int playerWidth = 20;
+        int playerHeight = 40;
+        Body body = bodyFactory.makeBoxPolyBody(0,0,playerWidth,playerHeight, BodyFactory.FixtureMaterial.STONE, BodyType.DynamicBody);
         bodyComponent.setBody(body);
 
         // Set up Transform component

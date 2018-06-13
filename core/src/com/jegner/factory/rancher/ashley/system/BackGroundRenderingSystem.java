@@ -27,7 +27,6 @@ public class BackGroundRenderingSystem extends SortedIteratingSystem {
 
     // Camera and viewport
     private OrthographicCamera camera;
-    private Viewport viewport;
     private OrthogonalTiledMapRenderer renderer;
 
     public BackGroundRenderingSystem(GameResources gameResources) {
@@ -36,8 +35,6 @@ public class BackGroundRenderingSystem extends SortedIteratingSystem {
 
         // Camera setup
         this.camera = gameResources.getCamera();
-        camera.zoom = 0.3f;
-        camera.setToOrtho(false);
 
         // Renderer
         this.renderer = new OrthogonalTiledMapRenderer(new TiledMap(), 1, spriteBatch);
@@ -52,10 +49,6 @@ public class BackGroundRenderingSystem extends SortedIteratingSystem {
         TiledMap map = tiledMapComponent.getMap();
         //renderer = new OrthogonalTiledMapRenderer(map, 1, spriteBatch);
         renderer.setMap(map);
-
-        camera.setToOrtho(false);
-        camera.position.x = tiledMapComponent.getMapWidthInPixels() * .5f;
-        camera.position.y = tiledMapComponent.getMapHeightInPixels() * .5f;
 
         camera.update();
         renderer.setView(camera);

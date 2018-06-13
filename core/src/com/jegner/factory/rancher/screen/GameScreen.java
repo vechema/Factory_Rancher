@@ -13,6 +13,7 @@ import com.jegner.factory.rancher.ashley.entity.TiledMapFactory;
 import com.jegner.factory.rancher.ashley.system.BackGroundRenderingSystem;
 import com.jegner.factory.rancher.ashley.system.PhysicsDebugSystem;
 import com.jegner.factory.rancher.ashley.system.PhysicsSystem;
+import com.jegner.factory.rancher.ashley.system.RenderingSystem;
 import com.jegner.factory.rancher.resource.GameResources;
 
 public class GameScreen extends AbstractScreen{
@@ -39,6 +40,7 @@ public class GameScreen extends AbstractScreen{
         engine.addSystem(new BackGroundRenderingSystem(gameResources));
         engine.addSystem(new PhysicsDebugSystem(gameResources));
         engine.addSystem(new PhysicsSystem(gameResources));
+        engine.addSystem(new RenderingSystem(gameResources));
 
         // Add entities to engine
         tiledMapFactory.createDirtMapEntity();

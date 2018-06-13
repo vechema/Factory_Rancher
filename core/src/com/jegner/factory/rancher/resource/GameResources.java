@@ -45,6 +45,8 @@ public class GameResources {
         this.preferences = new GamePreferences();
 
         this.camera = new OrthographicCamera();
+        camera.zoom = 0.3f;
+        camera.setToOrtho(false);
         this.viewport = new ScreenViewport(this.camera);
 
         this.spriteBatch = new SpriteBatch();
