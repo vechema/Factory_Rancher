@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.jegner.factory.rancher.FactoryRancherGame;
 import com.jegner.factory.rancher.resource.GameAssetManager;
+import com.jegner.factory.rancher.resource.GameResources;
 
 public class ScreenManager {
 
@@ -21,17 +22,21 @@ public class ScreenManager {
     private AbstractScreen currentScreen;
     private AbstractScreen previousScreen;
 
-    public ScreenManager(FactoryRancherGame game) {
+    public ScreenManager(FactoryRancherGame game, GameResources gameResources) {
+        Gdx.app.log("Screen manager", "start constructor");
+
         this.game = game;
 
-        loadingScreen = new LoadingScreen(this);
-        gameScreen = new GameScreen(this);
-        mainMenuScreen = new MainMenuScreen(this);
-        pauseScreen = new PauseScreen(this);
+        loadingScreen = new LoadingScreen(this, gameResources);
+        gameScreen = new GameScreen(this, gameResources);
+        mainMenuScreen = new MainMenuScreen(this, gameResources);
+        pauseScreen = new PauseScreen(this, gameResources);
 
         // Set screen trackers to non-null
         currentScreen = loadingScreen;
         previousScreen = loadingScreen;
+
+        Gdx.app.log("Screen manager", "end constructor");
     }
 
     public void setToLoadingScreen() {
@@ -57,9 +62,5 @@ public class ScreenManager {
                 + ", current: " + currentScreen.getClass().getSimpleName());
         game.setScreen(screen);
         previousScreen.dispose();
-    }
-
-    public GameAssetManager getAssetManager() {
-        return game.getAssetManager();
     }
 }

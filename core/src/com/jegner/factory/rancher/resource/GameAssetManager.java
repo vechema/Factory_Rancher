@@ -4,11 +4,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import static com.jegner.factory.rancher.resource.GameResources.dirtMapFileName;
+import static com.jegner.factory.rancher.resource.GameResourceNames.dirtMapFileName;
 
 public class GameAssetManager {
     private final AssetManager manager = new AssetManager();
-
 
     public void queueMapLoading() {
         manager.setLoader(TiledMap.class, new TmxMapLoader());

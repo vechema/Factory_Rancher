@@ -12,11 +12,15 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jegner.factory.rancher.ashley.component.CompMap;
 import com.jegner.factory.rancher.ashley.component.TiledMapComponent;
+import com.jegner.factory.rancher.resource.GameResources;
 
 /**
  * Used to render backgrounds in the form of tiled maps
  */
 public class BackGroundRenderingSystem extends SortedIteratingSystem {
+
+    // Family of components for system
+    private static final Family family = Family.all(TiledMapComponent.class).get();
 
     // Need the sprite batch for actual rendering
     private SpriteBatch spriteBatch;
@@ -26,13 +30,12 @@ public class BackGroundRenderingSystem extends SortedIteratingSystem {
     private Viewport viewport;
     private OrthogonalTiledMapRenderer renderer;
 
-    public BackGroundRenderingSystem(SpriteBatch spriteBatch) {
-        super(Family.all(TiledMapComponent.class).get(), new ZComparator());
-        this.spriteBatch = spriteBatch;
+    public BackGroundRenderingSystem(GameResources gameResources) {
+        super(family, new ZComparator());
+        this.spriteBatch = gameResources.getSpriteBatch();
 
         // Camera setup
-        camera = new OrthographicCamera();
-        viewport = new ScreenViewport(camera);
+        this.camera = gameResources.getCamera();
         camera.zoom = 0.3f;
         camera.setToOrtho(false);
 

@@ -1,12 +1,11 @@
 package com.jegner.factory.rancher.screen;
 
-
-import com.badlogic.gdx.Gdx;
+import com.jegner.factory.rancher.resource.GameResources;
 
 public class MainMenuScreen extends AbstractScreen{
 
-    public MainMenuScreen(ScreenManager screenManager) {
-        super(screenManager);
+    public MainMenuScreen(ScreenManager screenManager, GameResources gameResources) {
+        super(screenManager, gameResources);
     }
 
     @Override

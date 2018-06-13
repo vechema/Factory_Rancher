@@ -4,15 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.jegner.factory.rancher.resource.GameAssetManager;
+import com.jegner.factory.rancher.resource.GameResources;
 
 public abstract class AbstractScreen implements Screen {
 
     protected final ScreenManager screenManager;
     protected final GameAssetManager assetManager;
 
-    public AbstractScreen(ScreenManager screenManager) {
+    public AbstractScreen(ScreenManager screenManager, GameResources gameResources) {
         this.screenManager = screenManager;
-        this.assetManager = screenManager.getAssetManager();
+        this.assetManager = gameResources.getAssetManager();
         Gdx.app.log("New Screen", shortClassName());
     }
 

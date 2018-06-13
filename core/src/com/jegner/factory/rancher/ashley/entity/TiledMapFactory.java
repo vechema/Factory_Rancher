@@ -5,21 +5,30 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.jegner.factory.rancher.ashley.component.TiledMapComponent;
 import com.jegner.factory.rancher.resource.GameAssetManager;
+import com.jegner.factory.rancher.resource.GameResources;
 
-import static com.jegner.factory.rancher.resource.GameResources.dirtMapFileName;
+import static com.jegner.factory.rancher.resource.GameResourceNames.dirtMapFileName;
 
 public class TiledMapFactory {
 
-    // Asset Manager
-    private GameAssetManager assetManager;
+    // The singleton instance
+    private static TiledMapFactory instance;
 
-    // Engine
+    // Useful resources
+    private GameAssetManager assetManager;
     private PooledEngine engine;
 
-    public TiledMapFactory(GameAssetManager assetManager, PooledEngine engine) {
+    private TiledMapFactory(GameResources gameResources) {
 
-        this.assetManager = assetManager;
-        this.engine = engine;
+        this.assetManager = gameResources.getAssetManager();
+        this.engine = gameResources.getEngine();
+    }
+
+    public static TiledMapFactory getInstance(GameResources gameResources) {
+        if(instance == null) {
+            instance = new TiledMapFactory(gameResources);
+        }
+        return instance;
     }
 
     public Entity createDirtMapEntity() {

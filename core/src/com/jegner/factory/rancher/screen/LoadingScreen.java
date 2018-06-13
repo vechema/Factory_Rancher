@@ -1,9 +1,11 @@
 package com.jegner.factory.rancher.screen;
 
-public class LoadingScreen extends AbstractScreen{
+import com.jegner.factory.rancher.resource.GameResources;
 
-    public LoadingScreen(ScreenManager screenManager) {
-        super(screenManager);
+public class LoadingScreen extends AbstractScreen {
+
+    public LoadingScreen(ScreenManager screenManager, GameResources gameResources) {
+        super(screenManager, gameResources);
     }
 
     @Override
