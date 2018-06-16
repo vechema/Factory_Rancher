@@ -9,6 +9,7 @@ import com.jegner.factory.rancher.ashley.component.BodyComponent;
 import com.jegner.factory.rancher.ashley.component.PlayerComponent;
 import com.jegner.factory.rancher.ashley.component.TransformComponent;
 import com.jegner.factory.rancher.physics.BodyFactory;
+import com.jegner.factory.rancher.physics.BodyFactory.FixtureMaterial;
 import com.jegner.factory.rancher.resource.GameAssetManager;
 import com.jegner.factory.rancher.resource.GameResources;
 
@@ -57,7 +58,7 @@ public class PlayerFactory {
         float playerHeight = 2f;
         int playerStartX = 0;
         int playerStartY = 0;
-        Body body = bodyFactory.makeBoxPolyBody(playerStartX, playerStartY, playerWidth, playerHeight, BodyFactory.FixtureMaterial.STONE, BodyType.DynamicBody);
+        Body body = bodyFactory.makeBoxPolyBody(playerStartX, playerStartY, playerWidth, playerHeight, FixtureMaterial.STONE, BodyType.DynamicBody, true);
         bodyComponent.setBody(body);
 
         Gdx.app.log("Player factory", "Player weight: " + body.getMass());

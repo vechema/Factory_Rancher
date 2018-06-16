@@ -117,7 +117,6 @@ public class KeyboardController implements InputProcessor {
      */
     @Override
     public boolean scrolled(int amount) {
-        Gdx.app.log("Controller", amount + "");
         scroll = amount;
         return false;
     }
