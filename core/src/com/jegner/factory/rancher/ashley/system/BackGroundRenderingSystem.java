@@ -37,7 +37,8 @@ public class BackGroundRenderingSystem extends SortedIteratingSystem {
         this.camera = gameResources.getCamera();
 
         // Renderer
-        this.renderer = new OrthogonalTiledMapRenderer(new TiledMap(), 1, spriteBatch);
+        float scale = gameResources.getMetersPerPixel();
+        this.renderer = new OrthogonalTiledMapRenderer(new TiledMap(), scale, spriteBatch);
 
         Gdx.app.log("BG RenderingSystem", "Constructor");
     }

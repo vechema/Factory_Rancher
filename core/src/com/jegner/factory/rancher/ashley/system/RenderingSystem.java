@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.jegner.factory.rancher.ashley.component.CompMap;
+import com.jegner.factory.rancher.ashley.component.PlayerComponent;
 import com.jegner.factory.rancher.ashley.component.TransformComponent;
 import com.jegner.factory.rancher.resource.GameResources;
 
@@ -40,9 +41,12 @@ public class RenderingSystem extends SortedIteratingSystem {
         for (Entity entity : renderQueue) {
             //TextureComponent tex = textureM.get(entity);
             TransformComponent transformComponent = CompMap.transCom.get(entity);
+            PlayerComponent playerComponent = CompMap.playerCom.get(entity);
 
-            camera.position.x = transformComponent.getPosition().x;
-            camera.position.y = transformComponent.getPosition().y;
+            if(playerComponent != null) {
+                camera.position.x = transformComponent.getPosition().x;
+                camera.position.y = transformComponent.getPosition().y;
+            }
 
             /*if (tex.region == null || t.isHidden) {
                 continue;

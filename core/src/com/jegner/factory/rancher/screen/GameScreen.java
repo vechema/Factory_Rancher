@@ -1,19 +1,15 @@
 package com.jegner.factory.rancher.screen;
 
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.Gdx;
 import com.jegner.factory.rancher.ashley.entity.PlayerFactory;
 import com.jegner.factory.rancher.ashley.entity.TiledMapFactory;
 import com.jegner.factory.rancher.ashley.system.BackGroundRenderingSystem;
 import com.jegner.factory.rancher.ashley.system.PhysicsDebugSystem;
 import com.jegner.factory.rancher.ashley.system.PhysicsSystem;
+import com.jegner.factory.rancher.ashley.system.PlayerControlSystem;
 import com.jegner.factory.rancher.ashley.system.RenderingSystem;
+import com.jegner.factory.rancher.controller.KeyboardController;
 import com.jegner.factory.rancher.resource.GameResources;
 
 public class GameScreen extends AbstractScreen{
@@ -22,9 +18,11 @@ public class GameScreen extends AbstractScreen{
     private PooledEngine engine;
     private TiledMapFactory tiledMapFactory;
     private PlayerFactory playerFactory;
+    private KeyboardController keyboardController;
 
     public GameScreen(ScreenManager screenManager, GameResources gameResources) {
         super(screenManager, gameResources);
+        this.keyboardController = gameResources.getKeyboardController();
 
         // Asset loading
         assetManager.queueMapLoading();
@@ -41,10 +39,16 @@ public class GameScreen extends AbstractScreen{
         engine.addSystem(new PhysicsDebugSystem(gameResources));
         engine.addSystem(new PhysicsSystem(gameResources));
         engine.addSystem(new RenderingSystem(gameResources));
+        engine.addSystem(new PlayerControlSystem(gameResources));
 
         // Add entities to engine
         tiledMapFactory.createDirtMapEntity();
         playerFactory.createPlayerEntity();
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(keyboardController);
     }
 
     @Override

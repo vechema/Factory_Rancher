@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jegner.factory.rancher.FactoryRancherGame;
+import com.jegner.factory.rancher.controller.KeyboardController;
 import com.jegner.factory.rancher.screen.ScreenManager;
 
 /**
@@ -19,6 +20,8 @@ public class GameResources {
 
     // Physics
     private World world;
+    private float pixelsPerMeter;
+    private float metersPerPixel;
 
     // ECS
     private PooledEngine engine;
@@ -34,10 +37,15 @@ public class GameResources {
     // Drawing
     private SpriteBatch spriteBatch;
 
+    // Controller
+    private KeyboardController keyboardController;
+
     public GameResources() {
         Gdx.app.log("Game Resources", "start constructor");
 
         this.world = new World(new Vector2(0,0),true);
+        pixelsPerMeter = 16;
+        metersPerPixel = 1/pixelsPerMeter;
 
         this.engine = new PooledEngine();
 
@@ -45,16 +53,26 @@ public class GameResources {
         this.preferences = new GamePreferences();
 
         this.camera = new OrthographicCamera();
-        camera.zoom = 0.3f;
+        camera.zoom = metersPerPixel / 3;
         camera.setToOrtho(false);
         this.viewport = new ScreenViewport(this.camera);
 
         this.spriteBatch = new SpriteBatch();
+
+        this.keyboardController = new KeyboardController();
         Gdx.app.log("Game Resources", "end constructor");
     }
 
     public World getWorld() {
         return world;
+    }
+
+    public float getPixelsPerMeter() {
+        return pixelsPerMeter;
+    }
+
+    public float getMetersPerPixel() {
+        return metersPerPixel;
     }
 
     public PooledEngine getEngine() {
@@ -79,5 +97,9 @@ public class GameResources {
 
     public SpriteBatch getSpriteBatch() {
         return spriteBatch;
+    }
+
+    public KeyboardController getKeyboardController() {
+        return keyboardController;
     }
 }
