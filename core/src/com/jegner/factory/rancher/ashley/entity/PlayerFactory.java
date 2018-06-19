@@ -2,16 +2,26 @@ package com.jegner.factory.rancher.ashley.entity;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.jegner.factory.rancher.ashley.component.AnimationComponent;
 import com.jegner.factory.rancher.ashley.component.BodyComponent;
+import com.jegner.factory.rancher.ashley.component.DirectionComponent;
 import com.jegner.factory.rancher.ashley.component.PlayerComponent;
+import com.jegner.factory.rancher.ashley.component.CharacterStateComponent;
+import com.jegner.factory.rancher.ashley.component.TextureComponent;
 import com.jegner.factory.rancher.ashley.component.TransformComponent;
 import com.jegner.factory.rancher.physics.BodyFactory;
 import com.jegner.factory.rancher.physics.BodyFactory.FixtureMaterial;
 import com.jegner.factory.rancher.resource.GameAssetManager;
 import com.jegner.factory.rancher.resource.GameResources;
+
+import static com.jegner.factory.rancher.resource.GameResourceNames.humanAtlasFileName;
+import static com.jegner.factory.rancher.ashley.component.DirectionComponent.CharacterDirection;
+import static com.jegner.factory.rancher.ashley.component.CharacterStateComponent.CharacterState;
 
 public class PlayerFactory {
 
@@ -47,11 +57,12 @@ public class PlayerFactory {
         BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
         TransformComponent transformComponent = engine.createComponent(TransformComponent.class);
         PlayerComponent playerComponent = engine.createComponent(PlayerComponent.class);
-        /*TextureComponent texture = engine.createComponent(TextureComponent.class);
-        AnimationComponent animCom = engine.createComponent(AnimationComponent.class);
-        CollisionComponent colComp = engine.createComponent(CollisionComponent.class);
-        TypeComponent type = engine.createComponent(TypeComponent.class);
-        StateComponent stateCom = engine.createComponent(StateComponent.class);*/
+        TextureComponent textureComponent = engine.createComponent(TextureComponent.class);
+        CharacterStateComponent characterStateComponent = engine.createComponent(CharacterStateComponent.class);
+        DirectionComponent directionComponent = engine.createComponent(DirectionComponent.class);
+        AnimationComponent animationComponent = engine.createComponent(AnimationComponent.class);
+        /*CollisionComponent colComp = engine.createComponent(CollisionComponent.class);
+        TypeComponent type = engine.createComponent(TypeComponent.class);*/
 
         // Set up body component
         float playerWidth = .5f;
@@ -61,14 +72,36 @@ public class PlayerFactory {
         Body body = bodyFactory.makeBoxPolyBody(playerStartX, playerStartY, playerWidth, playerHeight, FixtureMaterial.STONE, BodyType.DynamicBody, true);
         bodyComponent.setBody(body);
 
-        Gdx.app.log("Player factory", "Player weight: " + body.getMass());
         // Set up Transform component
         transformComponent.getPosition().set(playerStartX, playerStartY,0);
+
+        // Set up Texture component
+        TextureAtlas humanAtlas = assetManager.get(humanAtlasFileName, TextureAtlas.class);
+        TextureRegion textureDown = humanAtlas.findRegion("human_walk_front");
+        TextureRegion textureUp = humanAtlas.findRegion("human_walk_back");
+        TextureRegion textureRight = humanAtlas.findRegion("human_walk_right");
+        TextureRegion textureLeft = new TextureRegion(textureRight);
+        textureLeft.flip(true,false);
+
+        ObjectMap textures = textureComponent.getTextures();
+        textures.put(CharacterDirection.DOWN, textureDown);
+        textures.put(CharacterDirection.UP,textureUp);
+        textures.put(CharacterDirection.RIGHT, textureRight);
+        textures.put(CharacterDirection.LEFT, textureLeft);
+
+        // Set up State component
+        characterStateComponent.setCharacterState(CharacterState.STANDING);
+
+        // Set up Direction component
+        directionComponent.setCharDir(DirectionComponent.DEFAULT_DIRECTION);
 
         // Add Components to Entity
         entity.add(bodyComponent);
         entity.add(transformComponent);
         entity.add(playerComponent);
+        entity.add(textureComponent);
+        entity.add(characterStateComponent);
+        entity.add(directionComponent);
 
         // Add Entity to Engine
         engine.addEntity(entity);

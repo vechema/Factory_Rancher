@@ -6,10 +6,10 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.jegner.factory.rancher.ashley.component.BodyComponent;
 import com.jegner.factory.rancher.ashley.component.CompMap;
+import com.jegner.factory.rancher.ashley.component.DirectionComponent;
 import com.jegner.factory.rancher.ashley.component.PlayerComponent;
 import com.jegner.factory.rancher.controller.KeyboardController;
 import com.jegner.factory.rancher.resource.GameResources;
@@ -17,7 +17,7 @@ import com.jegner.factory.rancher.resource.GameResources;
 public class PlayerControlSystem extends IteratingSystem {
 
     // Family of components for system
-    private static final Family family = Family.all(PlayerComponent.class, BodyComponent.class).get();
+    private static final Family family = Family.all(PlayerComponent.class, BodyComponent.class, DirectionComponent.class).get();
 
     // Useful resources
     private KeyboardController keyboardController;
@@ -38,30 +38,42 @@ public class PlayerControlSystem extends IteratingSystem {
         BodyComponent bodyComponent = CompMap.bodyCom.get(entity);
         Body body = bodyComponent.getBody();
         PlayerComponent playerComponent = CompMap.playerCom.get(entity);
+        DirectionComponent directionComponent = CompMap.dirCom.get(entity);
 
         // Setting up body speed
-        int deltaX = 0;
-        int deltaY = 0;
-
         if (keyboardController.isLeft()) {
-            deltaX -=10;
+            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x,
+                    -7f, 0.02f), body.getLinearVelocity().y);
+            directionComponent.setCharDir(DirectionComponent.CharacterDirection.LEFT);
+            Gdx.app.log("Player control", "Left!");
         }
-
         if (keyboardController.isRight()) {
-            deltaX +=10;
+            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x,
+                    7f, 0.02f), body.getLinearVelocity().y);
+            directionComponent.setCharDir(DirectionComponent.CharacterDirection.RIGHT);
+            Gdx.app.log("Player control", "Right!");
         }
-
-        if (keyboardController.isDown()) {
-            deltaY -=10;
-        }
-
         if (keyboardController.isUp()) {
-            deltaY +=10;
+            body.setLinearVelocity(body.getLinearVelocity().x,
+                    MathUtils.lerp(body.getLinearVelocity().y,7f, 0.02f));
+            directionComponent.setCharDir(DirectionComponent.CharacterDirection.UP);
+            Gdx.app.log("Player control", "Left!");
+        }
+        if (keyboardController.isDown()) {
+            body.setLinearVelocity(body.getLinearVelocity().x,
+                    MathUtils.lerp(body.getLinearVelocity().y,-7f, 0.02f));
+            directionComponent.setCharDir(DirectionComponent.CharacterDirection.DOWN);
+            Gdx.app.log("Player control", "Right!");
         }
 
-        body.setLinearVelocity(new Vector2(deltaX, deltaY));
+        if (!keyboardController.isDirection()) {
+            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x,
+                    0, 0.01f), body.getLinearVelocity().y);
+        }
 
         // Handling scrolling
+        // TODO end scrolling at edge of map
+        // TODO put in seperate system
         if(keyboardController.isScrollUp()) {
             camera.zoom = MathUtils.clamp(camera.zoom - zoomFactor,0.006f,0.6f);
         }

@@ -26,6 +26,7 @@ public class GameScreen extends AbstractScreen{
 
         // Asset loading
         assetManager.queueMapLoading();
+        assetManager.queueCharacterLoading();
         assetManager.finishLoading();
 
         engine = gameResources.getEngine();

@@ -141,6 +141,10 @@ public class KeyboardController implements InputProcessor {
 
     }
 
+    public boolean isDirection() {
+        return isLeft() || isRight() || isUp() || isDown();
+    }
+
     public boolean isLeft() {
         return directions.get(leftKey);
     }

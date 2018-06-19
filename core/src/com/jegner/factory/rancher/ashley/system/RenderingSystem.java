@@ -3,23 +3,28 @@ package com.jegner.factory.rancher.ashley.system;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.jegner.factory.rancher.ashley.component.CompMap;
+import com.jegner.factory.rancher.ashley.component.DirectionComponent;
 import com.jegner.factory.rancher.ashley.component.PlayerComponent;
+import com.jegner.factory.rancher.ashley.component.TextureComponent;
 import com.jegner.factory.rancher.ashley.component.TransformComponent;
 import com.jegner.factory.rancher.resource.GameResources;
 
 public class RenderingSystem extends SortedIteratingSystem {
 
     // Family of components for system
-    private static final Family family = Family.all(TransformComponent.class).get();
+    private static final Family family = Family.all(TransformComponent.class, TextureComponent.class).get();
 
     // Useful resources
     private Array<Entity> renderQueue;
     private SpriteBatch batch;
     private OrthographicCamera camera;
+    private float scale;
 
     public RenderingSystem(GameResources gameResources) {
         super(family, new ZComparator());
@@ -27,6 +32,8 @@ public class RenderingSystem extends SortedIteratingSystem {
 
         this.batch = gameResources.getSpriteBatch();
         this.camera = gameResources.getCamera();
+
+        this.scale = gameResources.getMetersPerPixel();
     }
 
     @Override
@@ -39,32 +46,34 @@ public class RenderingSystem extends SortedIteratingSystem {
         batch.begin();
 
         for (Entity entity : renderQueue) {
-            //TextureComponent tex = textureM.get(entity);
+            TextureComponent textureComponent = CompMap.texCom.get(entity);
             TransformComponent transformComponent = CompMap.transCom.get(entity);
             PlayerComponent playerComponent = CompMap.playerCom.get(entity);
 
             if(playerComponent != null) {
-                camera.position.x = transformComponent.getPosition().x;
-                camera.position.y = transformComponent.getPosition().y;
+                camera.position.lerp(transformComponent.getPosition(), 0.05f);
             }
 
-            /*if (tex.region == null || t.isHidden) {
+            if (textureComponent.getTextureRegion() == null || transformComponent.isHidden()) {
                 continue;
-            }*/
+            }
 
+            TextureRegion textureRegion = textureComponent.getTextureRegion(entity);
 
-            /*float width = tex.region.getRegionWidth();
-            float height = tex.region.getRegionHeight();
+            float width = textureRegion.getRegionWidth();
+            float height = textureRegion.getRegionHeight();
 
             float originX = width/2f;
             float originY = height/2f;
 
-            batch.draw(tex.region,
-                    t.position.x - originX, t.position.y - originY,
+            batch.draw(textureRegion,
+                    transformComponent.getPosition().x - originX,
+                    transformComponent.getPosition().y - originY,
                     originX, originY,
                     width, height,
-                    PixelsToMeters(t.scale.x), PixelsToMeters(t.scale.y),
-                    t.rotation);*/
+                    transformComponent.getScale().x * scale,
+                    transformComponent.getScale().y * scale,
+                    transformComponent.getRotation());
         }
 
         batch.end();
