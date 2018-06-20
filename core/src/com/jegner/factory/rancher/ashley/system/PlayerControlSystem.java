@@ -17,7 +17,8 @@ import com.jegner.factory.rancher.resource.GameResources;
 public class PlayerControlSystem extends IteratingSystem {
 
     // Family of components for system
-    private static final Family family = Family.all(PlayerComponent.class, BodyComponent.class, DirectionComponent.class).get();
+    private static final Family family = Family.all(PlayerComponent.class,
+            BodyComponent.class, DirectionComponent.class).get();
 
     // Useful resources
     private KeyboardController keyboardController;

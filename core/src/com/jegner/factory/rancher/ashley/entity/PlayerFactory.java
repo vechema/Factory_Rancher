@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.jegner.factory.rancher.ashley.component.AnimationComponent;
 import com.jegner.factory.rancher.ashley.component.BodyComponent;
 import com.jegner.factory.rancher.ashley.component.DirectionComponent;
+import com.jegner.factory.rancher.ashley.component.DirectionalTextureComponent;
 import com.jegner.factory.rancher.ashley.component.PlayerComponent;
 import com.jegner.factory.rancher.ashley.component.CharacterStateComponent;
 import com.jegner.factory.rancher.ashley.component.TextureComponent;
@@ -57,9 +58,10 @@ public class PlayerFactory {
         BodyComponent bodyComponent = engine.createComponent(BodyComponent.class);
         TransformComponent transformComponent = engine.createComponent(TransformComponent.class);
         PlayerComponent playerComponent = engine.createComponent(PlayerComponent.class);
-        TextureComponent textureComponent = engine.createComponent(TextureComponent.class);
         CharacterStateComponent characterStateComponent = engine.createComponent(CharacterStateComponent.class);
         DirectionComponent directionComponent = engine.createComponent(DirectionComponent.class);
+        DirectionalTextureComponent directionalTextureComponent = engine.createComponent(DirectionalTextureComponent.class);
+        TextureComponent textureComponent = engine.createComponent(TextureComponent.class);
         AnimationComponent animationComponent = engine.createComponent(AnimationComponent.class);
         /*CollisionComponent colComp = engine.createComponent(CollisionComponent.class);
         TypeComponent type = engine.createComponent(TypeComponent.class);*/
@@ -75,7 +77,13 @@ public class PlayerFactory {
         // Set up Transform component
         transformComponent.getPosition().set(playerStartX, playerStartY,0);
 
-        // Set up Texture component
+        // Set up State component
+        characterStateComponent.setCharacterState(CharacterState.STANDING);
+
+        // Set up Direction component
+        directionComponent.setCharDir(DirectionComponent.DEFAULT_DIRECTION);
+
+        // Set up Directional Texture component
         TextureAtlas humanAtlas = assetManager.get(humanAtlasFileName, TextureAtlas.class);
         TextureRegion textureDown = humanAtlas.findRegion("human_walk_front");
         TextureRegion textureUp = humanAtlas.findRegion("human_walk_back");
@@ -83,25 +91,23 @@ public class PlayerFactory {
         TextureRegion textureLeft = new TextureRegion(textureRight);
         textureLeft.flip(true,false);
 
-        ObjectMap textures = textureComponent.getTextures();
+        ObjectMap textures = directionalTextureComponent.getTextures();
         textures.put(CharacterDirection.DOWN, textureDown);
-        textures.put(CharacterDirection.UP,textureUp);
+        textures.put(CharacterDirection.UP, textureUp);
         textures.put(CharacterDirection.RIGHT, textureRight);
         textures.put(CharacterDirection.LEFT, textureLeft);
 
-        // Set up State component
-        characterStateComponent.setCharacterState(CharacterState.STANDING);
-
-        // Set up Direction component
-        directionComponent.setCharDir(DirectionComponent.DEFAULT_DIRECTION);
+        // Set up Texture component
+        textureComponent.setTextureRegion(textureDown);
 
         // Add Components to Entity
         entity.add(bodyComponent);
         entity.add(transformComponent);
         entity.add(playerComponent);
-        entity.add(textureComponent);
         entity.add(characterStateComponent);
         entity.add(directionComponent);
+        entity.add(directionalTextureComponent);
+        entity.add(textureComponent);
 
         // Add Entity to Engine
         engine.addEntity(entity);

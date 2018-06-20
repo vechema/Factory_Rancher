@@ -1,5 +1,6 @@
 package com.jegner.factory.rancher.ashley.system;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.jegner.factory.rancher.ashley.component.CompMap;
 import com.jegner.factory.rancher.ashley.component.DirectionComponent;
+import com.jegner.factory.rancher.ashley.component.DirectionalTextureComponent;
 import com.jegner.factory.rancher.ashley.component.PlayerComponent;
 import com.jegner.factory.rancher.ashley.component.TextureComponent;
 import com.jegner.factory.rancher.ashley.component.TransformComponent;
@@ -47,8 +49,10 @@ public class RenderingSystem extends SortedIteratingSystem {
 
         for (Entity entity : renderQueue) {
             TextureComponent textureComponent = CompMap.texCom.get(entity);
+            DirectionalTextureComponent directionalTextureComponent = CompMap.dirTexCom.get(entity);
             TransformComponent transformComponent = CompMap.transCom.get(entity);
             PlayerComponent playerComponent = CompMap.playerCom.get(entity);
+            DirectionComponent directionComponent = CompMap.dirCom.get(entity);
 
             if(playerComponent != null) {
                 camera.position.lerp(transformComponent.getPosition(), 0.05f);
@@ -58,7 +62,10 @@ public class RenderingSystem extends SortedIteratingSystem {
                 continue;
             }
 
-            TextureRegion textureRegion = textureComponent.getTextureRegion(entity);
+            TextureRegion textureRegion = textureComponent.getTextureRegion();
+            if(directionalTextureComponent != null && directionComponent != null) {
+                textureRegion = directionalTextureComponent.getTextureRegion(directionComponent.getCharDir());
+            }
 
             float width = textureRegion.getRegionWidth();
             float height = textureRegion.getRegionHeight();
