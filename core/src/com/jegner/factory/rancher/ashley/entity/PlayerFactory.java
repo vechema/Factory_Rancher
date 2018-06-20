@@ -2,6 +2,8 @@ package com.jegner.factory.rancher.ashley.entity;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -23,6 +25,9 @@ import com.jegner.factory.rancher.resource.GameResources;
 import static com.jegner.factory.rancher.resource.GameResourceNames.humanAtlasFileName;
 import static com.jegner.factory.rancher.ashley.component.DirectionComponent.CharacterDirection;
 import static com.jegner.factory.rancher.ashley.component.CharacterStateComponent.CharacterState;
+import static com.jegner.factory.rancher.resource.GameResourceNames.humanWalkBack;
+import static com.jegner.factory.rancher.resource.GameResourceNames.humanWalkFront;
+import static com.jegner.factory.rancher.resource.GameResourceNames.humanWalkRight;
 
 public class PlayerFactory {
 
@@ -85,9 +90,9 @@ public class PlayerFactory {
 
         // Set up Directional Texture component
         TextureAtlas humanAtlas = assetManager.get(humanAtlasFileName, TextureAtlas.class);
-        TextureRegion textureDown = humanAtlas.findRegion("human_walk_front");
-        TextureRegion textureUp = humanAtlas.findRegion("human_walk_back");
-        TextureRegion textureRight = humanAtlas.findRegion("human_walk_right");
+        TextureRegion textureDown = humanAtlas.findRegion(humanWalkFront);
+        TextureRegion textureUp = humanAtlas.findRegion(humanWalkBack);
+        TextureRegion textureRight = humanAtlas.findRegion(humanWalkRight);
         TextureRegion textureLeft = new TextureRegion(textureRight);
         textureLeft.flip(true,false);
 
@@ -100,6 +105,12 @@ public class PlayerFactory {
         // Set up Texture component
         textureComponent.setTextureRegion(textureDown);
 
+        // Set up Animation component
+        Animation animation = new Animation(0.1f, humanAtlas.findRegions(humanWalkFront));
+        animation.setPlayMode(PlayMode.LOOP);
+        ObjectMap<CharacterState, Animation<TextureRegion>> animations = animationComponent.getAnimations();
+        animations.put(CharacterState.WALKING, animation);
+
         // Add Components to Entity
         entity.add(bodyComponent);
         entity.add(transformComponent);
@@ -108,6 +119,7 @@ public class PlayerFactory {
         entity.add(directionComponent);
         entity.add(directionalTextureComponent);
         entity.add(textureComponent);
+        entity.add(animationComponent);
 
         // Add Entity to Engine
         engine.addEntity(entity);

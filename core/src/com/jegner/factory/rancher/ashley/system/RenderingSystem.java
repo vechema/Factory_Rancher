@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.jegner.factory.rancher.ashley.component.AnimationComponent;
+import com.jegner.factory.rancher.ashley.component.CharacterStateComponent;
+import com.jegner.factory.rancher.ashley.component.CharacterStateComponent.CharacterState;
 import com.jegner.factory.rancher.ashley.component.CompMap;
 import com.jegner.factory.rancher.ashley.component.DirectionComponent;
 import com.jegner.factory.rancher.ashley.component.DirectionalTextureComponent;
@@ -20,7 +23,8 @@ import com.jegner.factory.rancher.resource.GameResources;
 public class RenderingSystem extends SortedIteratingSystem {
 
     // Family of components for system
-    private static final Family family = Family.all(TransformComponent.class, TextureComponent.class).get();
+    private static final Family family = Family.all(TransformComponent.class,
+            TextureComponent.class).get();
 
     // Useful resources
     private Array<Entity> renderQueue;
@@ -53,6 +57,8 @@ public class RenderingSystem extends SortedIteratingSystem {
             TransformComponent transformComponent = CompMap.transCom.get(entity);
             PlayerComponent playerComponent = CompMap.playerCom.get(entity);
             DirectionComponent directionComponent = CompMap.dirCom.get(entity);
+            AnimationComponent animationComponent = CompMap.animCom.get(entity);
+            CharacterStateComponent characterStateComponent = CompMap.charStateCom.get(entity);
 
             if(playerComponent != null) {
                 camera.position.lerp(transformComponent.getPosition(), 0.05f);
@@ -63,7 +69,9 @@ public class RenderingSystem extends SortedIteratingSystem {
             }
 
             TextureRegion textureRegion = textureComponent.getTextureRegion();
-            if(directionalTextureComponent != null && directionComponent != null) {
+            if (characterStateComponent.getCharacterState() == CharacterState.STANDING &&
+                    directionalTextureComponent != null &&
+                    directionComponent != null) {
                 textureRegion = directionalTextureComponent.getTextureRegion(directionComponent.getCharDir());
             }
 

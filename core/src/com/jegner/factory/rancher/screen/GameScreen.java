@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.jegner.factory.rancher.ashley.entity.PlayerFactory;
 import com.jegner.factory.rancher.ashley.entity.TiledMapFactory;
+import com.jegner.factory.rancher.ashley.system.AnimationSystem;
 import com.jegner.factory.rancher.ashley.system.BackGroundRenderingSystem;
 import com.jegner.factory.rancher.ashley.system.PhysicsDebugSystem;
 import com.jegner.factory.rancher.ashley.system.PhysicsSystem;
@@ -41,6 +42,7 @@ public class GameScreen extends AbstractScreen{
         engine.addSystem(new PhysicsSystem(gameResources));
         engine.addSystem(new RenderingSystem(gameResources));
         engine.addSystem(new PlayerControlSystem(gameResources));
+        engine.addSystem(new AnimationSystem(gameResources));
 
         // Add entities to engine
         tiledMapFactory.createDirtMapEntity();
