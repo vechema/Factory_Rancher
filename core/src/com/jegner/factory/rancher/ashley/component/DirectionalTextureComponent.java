@@ -31,7 +31,6 @@ public class DirectionalTextureComponent implements Component, Poolable {
         TextureRegion textureRegion;
 
         if (directionComponent != null) {
-            Gdx.app.log("Get Texture Region", ""+ directionComponent.getCharDir());
             textureRegion = getTextureRegion(directionComponent.getCharDir());
         } else {
             textureRegion = getTextureRegion(DEFAULT_DIRECTION);

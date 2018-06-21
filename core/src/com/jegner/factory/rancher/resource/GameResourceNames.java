@@ -5,7 +5,7 @@ public class GameResourceNames {
 
     // Human resources
     public static final String humanAtlasFileName = "Player/human.atlas";
-    public static final String humanWalkFront = "human_walk_front";
-    public static final String humanWalkBack = "human_walk_back";
+    public static final String humanWalkDown = "human_walk_down";
+    public static final String humanWalkUp = "human_walk_up";
     public static final String humanWalkRight = "human_walk_right";
 }

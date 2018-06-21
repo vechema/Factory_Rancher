@@ -5,7 +5,8 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class CharacterStateComponent implements Component, Poolable{
 
-    public CharacterState characterState;
+    public static final CharacterState DEFAULT_STATE = CharacterState.STANDING;
+    public CharacterState characterState = DEFAULT_STATE;
     private float time = 0f;
     private boolean isLooping = false;
 
@@ -35,7 +36,7 @@ public class CharacterStateComponent implements Component, Poolable{
 
     @Override
     public void reset() {
-        characterState = CharacterState.STANDING;
+        characterState = DEFAULT_STATE;
     }
 
     public static enum CharacterState {

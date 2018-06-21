@@ -5,8 +5,8 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class DirectionComponent implements Component, Poolable {
 
-    private CharacterDirection charDir;
     public static final CharacterDirection DEFAULT_DIRECTION = CharacterDirection.DOWN;
+    private CharacterDirection charDir = DEFAULT_DIRECTION;
 
     public CharacterDirection getCharDir() {
         return charDir;
@@ -18,7 +18,7 @@ public class DirectionComponent implements Component, Poolable {
 
     @Override
     public void reset() {
-        charDir = CharacterDirection.DOWN;
+        charDir = DEFAULT_DIRECTION;
     }
 
     public static enum CharacterDirection {

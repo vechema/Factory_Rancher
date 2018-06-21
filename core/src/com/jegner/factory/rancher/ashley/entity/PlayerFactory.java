@@ -25,8 +25,8 @@ import com.jegner.factory.rancher.resource.GameResources;
 import static com.jegner.factory.rancher.resource.GameResourceNames.humanAtlasFileName;
 import static com.jegner.factory.rancher.ashley.component.DirectionComponent.CharacterDirection;
 import static com.jegner.factory.rancher.ashley.component.CharacterStateComponent.CharacterState;
-import static com.jegner.factory.rancher.resource.GameResourceNames.humanWalkBack;
-import static com.jegner.factory.rancher.resource.GameResourceNames.humanWalkFront;
+import static com.jegner.factory.rancher.resource.GameResourceNames.humanWalkUp;
+import static com.jegner.factory.rancher.resource.GameResourceNames.humanWalkDown;
 import static com.jegner.factory.rancher.resource.GameResourceNames.humanWalkRight;
 
 public class PlayerFactory {
@@ -90,8 +90,8 @@ public class PlayerFactory {
 
         // Set up Directional Texture component
         TextureAtlas humanAtlas = assetManager.get(humanAtlasFileName, TextureAtlas.class);
-        TextureRegion textureDown = humanAtlas.findRegion(humanWalkFront);
-        TextureRegion textureUp = humanAtlas.findRegion(humanWalkBack);
+        TextureRegion textureDown = humanAtlas.findRegion(humanWalkDown);
+        TextureRegion textureUp = humanAtlas.findRegion(humanWalkUp);
         TextureRegion textureRight = humanAtlas.findRegion(humanWalkRight);
         TextureRegion textureLeft = new TextureRegion(textureRight);
         textureLeft.flip(true,false);
@@ -106,10 +106,24 @@ public class PlayerFactory {
         textureComponent.setTextureRegion(textureDown);
 
         // Set up Animation component
-        Animation animation = new Animation(0.1f, humanAtlas.findRegions(humanWalkFront));
-        animation.setPlayMode(PlayMode.LOOP);
-        ObjectMap<CharacterState, Animation<TextureRegion>> animations = animationComponent.getAnimations();
-        animations.put(CharacterState.WALKING, animation);
+        Animation humanWalkDownAnimation = new Animation(0.1f, humanAtlas.findRegions(humanWalkDown));
+        humanWalkDownAnimation.setPlayMode(PlayMode.LOOP);
+        animationComponent.setAnimation(CharacterState.WALKING, CharacterDirection.DOWN, humanWalkDownAnimation);
+
+        Animation humanWalkUpAnimation = new Animation(0.1f, humanAtlas.findRegions(humanWalkUp));
+        humanWalkUpAnimation.setPlayMode(PlayMode.LOOP);
+        animationComponent.setAnimation(CharacterState.WALKING, CharacterDirection.UP, humanWalkUpAnimation);
+
+        Animation humanWalkRightAnimation = new Animation(0.1f, humanAtlas.findRegions(humanWalkRight));
+        humanWalkRightAnimation.setPlayMode(PlayMode.LOOP);
+        animationComponent.setAnimation(CharacterState.WALKING, CharacterDirection.RIGHT, humanWalkRightAnimation);
+
+        Animation<TextureRegion> humanWalkLeftAnimation = new Animation(0.1f, humanAtlas.findRegions(humanWalkRight));
+        humanWalkLeftAnimation.setPlayMode(PlayMode.LOOP);
+        for (TextureRegion x : humanWalkLeftAnimation.getKeyFrames()) {
+            x.flip(true,false);
+        }
+        animationComponent.setAnimation(CharacterState.WALKING, CharacterDirection.LEFT, humanWalkLeftAnimation);
 
         // Add Components to Entity
         entity.add(bodyComponent);

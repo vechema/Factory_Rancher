@@ -11,6 +11,7 @@ import com.jegner.factory.rancher.ashley.component.AnimationComponent;
 import com.jegner.factory.rancher.ashley.component.CharacterStateComponent;
 import com.jegner.factory.rancher.ashley.component.CharacterStateComponent.CharacterState;
 import com.jegner.factory.rancher.ashley.component.CompMap;
+import com.jegner.factory.rancher.ashley.component.DirectionComponent.CharacterDirection;
 import com.jegner.factory.rancher.ashley.component.TextureComponent;
 import com.jegner.factory.rancher.resource.GameResources;
 
@@ -30,12 +31,11 @@ public class AnimationSystem extends IteratingSystem {
         CharacterStateComponent characterStateComponent = CompMap.charStateCom.get(entity);
         TextureComponent textureComponent = CompMap.texCom.get(entity);
 
-        ObjectMap<CharacterState, Animation<TextureRegion>> animations = animationComponent.getAnimations();
         CharacterState characterState = characterStateComponent.getCharacterState();
         float stateTime = characterStateComponent.getTime();
-        if (animations.containsKey(characterState)) {
+        if (animationComponent.hasState(characterState)) {
             boolean stateLooping = characterStateComponent.isLooping();
-            TextureRegion animationTexture = animations.get(characterState).getKeyFrame(stateTime, stateLooping);
+            TextureRegion animationTexture = animationComponent.getAnimation(entity).getKeyFrame(stateTime, stateLooping);
             textureComponent.setTextureRegion(animationTexture);
         }
 
