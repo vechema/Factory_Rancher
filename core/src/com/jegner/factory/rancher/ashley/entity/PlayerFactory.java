@@ -106,19 +106,21 @@ public class PlayerFactory {
         textureComponent.setTextureRegion(textureDown);
 
         // Set up Animation component
-        Animation humanWalkDownAnimation = new Animation(0.1f, humanAtlas.findRegions(humanWalkDown));
+        float frameDuration = 0.12f;
+
+        Animation humanWalkDownAnimation = new Animation(frameDuration, humanAtlas.findRegions(humanWalkDown));
         humanWalkDownAnimation.setPlayMode(PlayMode.LOOP);
         animationComponent.setAnimation(CharacterState.WALKING, CharacterDirection.DOWN, humanWalkDownAnimation);
 
-        Animation humanWalkUpAnimation = new Animation(0.1f, humanAtlas.findRegions(humanWalkUp));
+        Animation humanWalkUpAnimation = new Animation(frameDuration, humanAtlas.findRegions(humanWalkUp));
         humanWalkUpAnimation.setPlayMode(PlayMode.LOOP);
         animationComponent.setAnimation(CharacterState.WALKING, CharacterDirection.UP, humanWalkUpAnimation);
 
-        Animation humanWalkRightAnimation = new Animation(0.1f, humanAtlas.findRegions(humanWalkRight));
+        Animation humanWalkRightAnimation = new Animation(frameDuration, humanAtlas.findRegions(humanWalkRight));
         humanWalkRightAnimation.setPlayMode(PlayMode.LOOP);
         animationComponent.setAnimation(CharacterState.WALKING, CharacterDirection.RIGHT, humanWalkRightAnimation);
 
-        Animation<TextureRegion> humanWalkLeftAnimation = new Animation(0.1f, humanAtlas.findRegions(humanWalkRight));
+        Animation<TextureRegion> humanWalkLeftAnimation = new Animation(frameDuration, humanAtlas.findRegions(humanWalkRight));
         humanWalkLeftAnimation.setPlayMode(PlayMode.LOOP);
         for (TextureRegion x : humanWalkLeftAnimation.getKeyFrames()) {
             x.flip(true,false);

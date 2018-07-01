@@ -45,34 +45,34 @@ public class PlayerControlSystem extends IteratingSystem {
         CharacterStateComponent characterStateComponent = CompMap.charStateCom.get(entity);
 
         // Setting up body speed
+
+        int deltaX = 0;
+        int deltaY = 0;
         if (keyboardController.isLeft()) {
-            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x,
-                    -7f, 0.02f), body.getLinearVelocity().y);
+            deltaX -= 1;
             directionComponent.setCharDir(DirectionComponent.CharacterDirection.LEFT);
         }
         if (keyboardController.isRight()) {
-            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x,
-                    7f, 0.02f), body.getLinearVelocity().y);
+            deltaX += 1;
             directionComponent.setCharDir(DirectionComponent.CharacterDirection.RIGHT);
         }
         if (keyboardController.isUp()) {
-            body.setLinearVelocity(body.getLinearVelocity().x,
-                    MathUtils.lerp(body.getLinearVelocity().y,7f, 0.02f));
+            deltaY += 1;
             directionComponent.setCharDir(DirectionComponent.CharacterDirection.UP);
         }
         if (keyboardController.isDown()) {
-            body.setLinearVelocity(body.getLinearVelocity().x,
-                    MathUtils.lerp(body.getLinearVelocity().y,-7f, 0.02f));
+            deltaY -= 1;
             directionComponent.setCharDir(DirectionComponent.CharacterDirection.DOWN);
         }
 
         if (!keyboardController.isDirection()) {
-            body.setLinearVelocity(MathUtils.lerp(body.getLinearVelocity().x,
-                    0, 0.01f), body.getLinearVelocity().y);
             characterStateComponent.setCharacterState(CharacterState.STANDING);
         } else {
             characterStateComponent.setCharacterState(CharacterState.WALKING);
         }
+
+        int speed = 5;
+        body.setLinearVelocity(deltaX * speed, deltaY * speed);
 
         // Handling scrolling
         // TODO end scrolling at edge of map

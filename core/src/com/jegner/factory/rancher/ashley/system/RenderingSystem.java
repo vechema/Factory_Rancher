@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.jegner.factory.rancher.ashley.component.AnimationComponent;
 import com.jegner.factory.rancher.ashley.component.CharacterStateComponent;
@@ -61,7 +62,7 @@ public class RenderingSystem extends SortedIteratingSystem {
             CharacterStateComponent characterStateComponent = CompMap.charStateCom.get(entity);
 
             if(playerComponent != null) {
-                camera.position.lerp(transformComponent.getPosition(), 0.05f);
+                camera.position.set(transformComponent.getPosition());
             }
 
             if (textureComponent.getTextureRegion() == null || transformComponent.isHidden()) {

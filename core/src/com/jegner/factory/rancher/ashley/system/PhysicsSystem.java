@@ -19,7 +19,7 @@ public class PhysicsSystem extends IteratingSystem {
     private static final Family family = Family.all(TransformComponent.class, BodyComponent.class).get();
 
     // Keep the simulation from running too much
-    private static final float MAX_STEP_TIME = 1/45f;
+    private static final float MAX_STEP_TIME = 1/60f;
     private static float accumulator = 0f;
 
     // Useful resources

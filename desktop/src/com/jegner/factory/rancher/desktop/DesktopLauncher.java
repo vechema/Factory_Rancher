@@ -7,7 +7,7 @@ import com.jegner.factory.rancher.FactoryRancherGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1200;
+		config.width = 800;
 		config.height = 600;
 		new LwjglApplication(new FactoryRancherGame(), config);
 	}
