@@ -2,6 +2,7 @@ package com.jegner.factory.rancher.screen;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.jegner.factory.rancher.ashley.entity.CowFactory;
 import com.jegner.factory.rancher.ashley.entity.PlayerFactory;
 import com.jegner.factory.rancher.ashley.entity.TiledMapFactory;
 import com.jegner.factory.rancher.ashley.system.AnimationSystem;
@@ -17,9 +18,12 @@ public class GameScreen extends AbstractScreen{
 
     // Useful resources
     private PooledEngine engine;
+    private KeyboardController keyboardController;
+
+    // Factories
     private TiledMapFactory tiledMapFactory;
     private PlayerFactory playerFactory;
-    private KeyboardController keyboardController;
+    private CowFactory cowFactory;
 
     public GameScreen(ScreenManager screenManager, GameResources gameResources) {
         super(screenManager, gameResources);
@@ -35,6 +39,7 @@ public class GameScreen extends AbstractScreen{
         // Entity Factories
         tiledMapFactory = TiledMapFactory.getInstance(gameResources);
         playerFactory = PlayerFactory.getInstance(gameResources);
+        cowFactory = CowFactory.getInstance(gameResources);
 
         // Add systems to engine
         engine.addSystem(new BackGroundRenderingSystem(gameResources));
@@ -47,6 +52,7 @@ public class GameScreen extends AbstractScreen{
         // Add entities to engine
         tiledMapFactory.createDirtMapEntity();
         playerFactory.createPlayerEntity();
+        cowFactory.createCowEntity();
     }
 
     @Override

@@ -10,7 +10,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 800;
 		config.height = 600;
-        TexturePacker.process("./Player","./Output","human");
+        TexturePacker.process("./player","./output","human");
+        TexturePacker.process("./cow","./output","cow");
 		new LwjglApplication(new FactoryRancherGame(), config);
 	}
 }

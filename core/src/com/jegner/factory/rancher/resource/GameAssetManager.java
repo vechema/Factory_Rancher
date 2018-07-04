@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
+import static com.jegner.factory.rancher.resource.GameResourceNames.cowAtlasFileName;
 import static com.jegner.factory.rancher.resource.GameResourceNames.dirtMapFileName;
 import static com.jegner.factory.rancher.resource.GameResourceNames.humanAtlasFileName;
 
@@ -18,6 +19,7 @@ public class GameAssetManager {
 
     public void queueCharacterLoading() {
         manager.load(humanAtlasFileName, TextureAtlas.class);
+        manager.load(cowAtlasFileName, TextureAtlas.class);
     }
 
     public void finishLoading() {
