@@ -76,7 +76,7 @@ public class PlayerFactory {
         float playerHeight = 2f;
         int playerStartX = 0;
         int playerStartY = 0;
-        Body body = bodyFactory.makeBoxPolyBody(playerStartX, playerStartY, playerWidth, playerHeight, FixtureMaterial.STONE, BodyType.DynamicBody, true);
+        Body body = bodyFactory.makeBoxPolyBody(playerStartX, playerStartY, playerWidth, playerHeight, FixtureMaterial.HUMAN, BodyType.DynamicBody, true);
         bodyComponent.setBody(body);
 
         // Set up Transform component

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jegner.factory.rancher.FactoryRancherGame;
 import com.jegner.factory.rancher.controller.KeyboardController;
+import com.jegner.factory.rancher.physics.GameContactListener;
 import com.jegner.factory.rancher.screen.ScreenManager;
 
 /**
@@ -44,6 +45,7 @@ public class GameResources {
         Gdx.app.log("Game Resources", "start constructor");
 
         this.world = new World(new Vector2(0,0),true);
+        world.setContactListener(new GameContactListener());
         pixelsPerMeter = 16;
         metersPerPixel = 1/pixelsPerMeter;
 

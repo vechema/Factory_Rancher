@@ -2,7 +2,6 @@ package com.jegner.factory.rancher.ashley.entity;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -59,7 +58,7 @@ public class TiledMapFactory {
             float rectY = (rect.y + rect.height / 2) * scale;
             float rectWidth = rect.width * scale;
             float rectHeight = rect.height * scale;
-            bodyFactory.makeBoxPolyBody(rectX, rectY, rectWidth,rectHeight, FixtureMaterial.STONE, BodyType.StaticBody);
+            bodyFactory.makeBoxPolyBody(rectX, rectY, rectWidth,rectHeight, FixtureMaterial.WALL, BodyType.StaticBody);
         }
 
         // Add Components to Entity

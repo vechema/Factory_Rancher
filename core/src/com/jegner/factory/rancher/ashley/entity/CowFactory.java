@@ -74,7 +74,7 @@ public class CowFactory {
         float cowHeight = 1f;
         int cowStartX = 5;
         int cowStartY = 5;
-        Body body = bodyFactory.makeBoxPolyBody(cowStartX, cowStartY, cowWidth, cowHeight, FixtureMaterial.STONE, BodyType.DynamicBody, true);
+        Body body = bodyFactory.makeBoxPolyBody(cowStartX, cowStartY, cowWidth, cowHeight, FixtureMaterial.COW, BodyType.DynamicBody, true);
         bodyComponent.setBody(body);
 
         // Set up Transform component

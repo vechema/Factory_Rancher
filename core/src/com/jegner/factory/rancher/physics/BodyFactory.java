@@ -1,5 +1,6 @@
 package com.jegner.factory.rancher.physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,10 +14,9 @@ import com.jegner.factory.rancher.resource.GameResources;
 public class BodyFactory {
 
     public enum FixtureMaterial {
-        STEEL,
-        WOOD,
-        RUBBER,
-        STONE,
+        COW,
+        HUMAN,
+        WALL,
     }
 
     private World world;
@@ -38,26 +38,23 @@ public class BodyFactory {
         fixtureDef.shape = shape;
 
         switch (material) {
-            case STEEL:
-                fixtureDef.density = 1f;
-                fixtureDef.friction = 0.3f;
-                fixtureDef.restitution = 0.1f;
-                break;
-            case WOOD:
-                fixtureDef.density = 0.5f;
-                fixtureDef.friction = 0.7f;
-                fixtureDef.restitution = 0.3f;
-                break;
-            case RUBBER:
-                fixtureDef.density = 1f;
-                fixtureDef.friction = 0f;
-                fixtureDef.restitution = 1f;
-                break;
-            case STONE:
-                fixtureDef.density = 1f;
-                fixtureDef.friction = 0.5f;
+            case COW:
+                fixtureDef.density = 20f;
+                fixtureDef.friction = 1f;
                 fixtureDef.restitution = 0f;
+                break;
+            case HUMAN:
+                fixtureDef.density = 1f;
+                fixtureDef.friction = 1f;
+                fixtureDef.restitution = 0f;
+                break;
+            case WALL:
+                fixtureDef.density = 1f;
+                fixtureDef.friction = 1f;
+                fixtureDef.restitution = 0f;
+                break;
             default:
+                Gdx.app.log("Body Factory","default");
                 fixtureDef.density = 7f;
                 fixtureDef.friction = 0.5f;
                 fixtureDef.restitution = 0.3f;
